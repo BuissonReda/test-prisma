@@ -1,0 +1,33 @@
+generator client {
+   provider = "prisma-client-js"
+}
+
+model User {
+   id          Int       @default(autoincrement()) @id
+   name        String
+
+   posts       Post[]
+}
+
+model Post {
+   id          Int       @default(autoincrement()) @id
+   text        String
+   authorId    Int
+
+   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+datasource db {
+   provider = "sqlite"
+   url      = "file:./dev.db"
+}
+
+// datasource db {
+//    provider = "postgresql"
+//    url      = "postgresql://user:password@localhost:5432/mydb"
+// }
+
+// datasource db {
+//    provider = "postgresql"
+//    url      = env("DATABASE_URL")
+// }
